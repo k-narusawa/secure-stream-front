@@ -1,3 +1,4 @@
+import { Button, Card } from "@/shared-components/src";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
@@ -15,28 +16,27 @@ export default function Home() {
         <div>refresh_token: {session.refreshToken}</div>
         <div>id_token: {session.idToken}</div>
         <div>expires_at: {session.expiresAt}</div>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          // onClick={() => signOut({ redirect: true, callbackUrl: '/api/auth/logout' })}
-          onClick={onLogout}
-        >
+        <Button onClick={onLogout} disabled={false}>
           ログアウト
-        </button>
+        </Button>
       </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h1 className="text-xl font-bold mb-4">ログイン</h1>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={() => signIn("hydra")}
-        >
-          ログイン
-        </button>
+    <>
+      <div className="pt-10">
+        <Card>
+          <div className="text-xl font-medium text-gray-900 text-center">
+            Login
+          </div>
+          <div className="flex flex-col mt-5">
+            <Button onClick={() => signIn("hydra")} disabled={false}>
+              ログイン
+            </Button>
+          </div>
+        </Card>
       </div>
-    </div>
+    </>
   );
 }
