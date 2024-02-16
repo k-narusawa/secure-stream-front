@@ -17,7 +17,8 @@
 npm run dev
 ```
 
-> [!TIP] > `concurrently`が導入されているため複数のプロジェクトが同時に実行される設定になっています
+> [!TIP]
+> `concurrently`が導入されているため複数のプロジェクトが同時に実行される設定になっています
 
 ## 設定
 
@@ -25,8 +26,6 @@ npm run dev
 
 ```json
 {
-  <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
   "client_name": "hydra",
   "grant_types": ["authorization_code", "refresh_token", "client_credentials"],
   "response_types": ["code"],
