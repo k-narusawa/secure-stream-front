@@ -24,7 +24,6 @@ const ConsentPage = () => {
           }
         )
           .then((response) => {
-            console.log(response.data);
             if (response.data.redirect_to) {
               router.push(response.data.redirect_to);
             }

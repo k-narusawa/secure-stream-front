@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { Toast } from "@/shared-components/src";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("test@example.com");
@@ -72,7 +73,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="pt-10">
+    <div className="pt-20">
       <LoginCard
         username={username}
         password={password}

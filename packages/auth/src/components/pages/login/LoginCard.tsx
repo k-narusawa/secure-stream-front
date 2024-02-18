@@ -60,7 +60,7 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
           />
         </div>
         <input type="hidden" value={props.csrfToken} />
-        <div className="mt-5 text-center">
+        <div className="pt-10 pb-5 px-10 text-center">
           <Button type="submit" disabled={!isValid || isSubmitting}>
             Login
           </Button>
