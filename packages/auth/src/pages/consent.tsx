@@ -70,6 +70,10 @@ const ConsentPage = () => {
     await router.push(redirectTo);
   };
 
+  if (scopes.length === 0) {
+    return <></>;
+  }
+
   return (
     <div className="pt-10">
       <ConsentCard challenge={challenge} scopes={scopes} onAccept={onAccept} />
