@@ -1,0 +1,15 @@
+query UserInfo {
+  userInfo {
+    userId
+    user {
+      username
+      isAccountLock
+    }
+    profile {
+      familyName
+      givenName
+      nickname
+      picture
+    }
+  }
+}
