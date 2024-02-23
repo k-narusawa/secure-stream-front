@@ -9,26 +9,16 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  if (process.env.NODE_ENV !== "development") {
-    return {
-      redirect: {
-        destination: "/account/settings",
-        permanent: false,
-      },
-    };
-  }
-
   const session = await getSession({ req: context.req });
 
-  if (session) {
+  if (session && session.expiresAt > Date.now() / 1000) {
     return {
       redirect: {
-        destination: "/account/settings",
+        destination: "/account",
         permanent: false,
       },
     };
   }
-
   return {
     props: {},
   };

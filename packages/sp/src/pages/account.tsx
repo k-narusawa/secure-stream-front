@@ -1,28 +1,31 @@
+import { Button } from "@/shared-components/src";
 import { GraphQLClient } from "graphql-request";
 import { GetServerSideProps } from "next";
 import { getSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import UserInfoCard from "~/components/account/settings/UserInfoCard";
+import ProfileCard from "~/components/pages/account/ProfileCard";
+import UserCard from "~/components/pages/account/UserCard";
 import { UserInfo, getSdk } from "~/graphql/ssr.generated";
 
 type Props = {
-  userInfo?: UserInfo;
+  userInfo: UserInfo;
 };
 
 const AccountSettingsPage = (props: Props) => {
-  const router = useRouter();
   const onLogout = async () => {
     signOut();
   };
 
-  if (!props.userInfo) {
-    router.push("/");
-  }
-
-  if (props.userInfo) {
+  if (props.userInfo?.profile) {
     return (
       <div className="pt-10">
-        <UserInfoCard userinfo={props.userInfo} onLogout={onLogout} />
+        <UserCard userInfo={props.userInfo} />
+        <div className="my-10" />
+        <ProfileCard profile={props.userInfo.profile} />
+        <div className="mt-10">
+          <Button onClick={onLogout} disabled={false}>
+            ログアウト
+          </Button>
+        </div>
       </div>
     );
   }
@@ -45,6 +48,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       console.error(err);
       return null;
     });
+
+  if (!userInfo) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
