@@ -3,3 +3,11 @@ type ProfileEditFormInputs = {
   givenName: string;
   nickname: string;
 };
+
+type UserNameEditFormInputs = {
+  username: string;
+};
+
+type PasswordEditFormInputs = {
+  password: string;
+};
