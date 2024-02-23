@@ -60,7 +60,7 @@ export const ProfileEditCard = ({
               }}
             />
           </div>
-          <div className="text-gray-500 whitespace-nowrap pt-2">Nickname</div>
+          <div className="text-gray-500 whitespace-nowrap py-2">Nickname</div>
 
           <Input
             className="col-start-1"
@@ -71,7 +71,7 @@ export const ProfileEditCard = ({
           />
         </div>
 
-        <div className="pt-10 pb-5 px-10 text-center font-sans">
+        <div className="pt-5 pb-5 px-20 text-center font-sans">
           <Button type="submit" disabled={!isValid || isSubmitting}>
             Submit
           </Button>

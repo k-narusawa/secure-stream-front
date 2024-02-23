@@ -1,4 +1,4 @@
-import { Sdk, getSdk } from "./../../../graphql/ssr.generated";
+import { getSdk } from "./../../../graphql/ssr.generated";
 import console from "console";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
