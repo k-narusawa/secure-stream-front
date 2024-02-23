@@ -3,13 +3,14 @@ import { UserInfo } from "~/graphql/ssr.generated";
 
 export interface UserInfoCardProps {
   userinfo: UserInfo;
+  onLogout: () => void;
 }
 
-const UserInfoCard = ({ userinfo }: UserInfoCardProps) => {
+const UserInfoCard = ({ userinfo, onLogout }: UserInfoCardProps) => {
   return (
     <Card>
       <p>{userinfo.user?.username}</p>
-      <Button onClick={() => {}} disabled={false}>
+      <Button onClick={onLogout} disabled={false}>
         ログアウト
       </Button>
     </Card>
