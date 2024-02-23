@@ -1,9 +1,12 @@
 import { GraphQLClient } from "graphql-request";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import ProfileEditCard from "~/components/pages/account/profile/ProfileEditCard";
 import { UserInfo, getSdk } from "~/graphql/ssr.generated";
+import { useState } from "react";
+import { Toast } from "@/shared-components/src";
 
 type Props = {
   userInfo: UserInfo;
@@ -11,9 +14,18 @@ type Props = {
 
 const ProfilePage = ({ userInfo }: Props) => {
   const router = useRouter();
+  const [error, setError] = useState<string | undefined>();
 
-  const onSubmit = (data: ProfileEditFormInputs) => {
-    router.push("/account");
+  const onSubmit = async (data: ProfileEditFormInputs) => {
+    axios
+      .post("/api/private/profile", data)
+      .then(() => {
+        router.push("/account");
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to update profile");
+      });
   };
 
   return (
@@ -24,6 +36,17 @@ const ProfilePage = ({ userInfo }: Props) => {
         nickname={userInfo.profile?.nickname || ""}
         onSubmit={onSubmit}
       />
+      {error && (
+        <div className="z-50 fixed bottom-0 w-full flex justify-center">
+          <Toast
+            type="danger"
+            message={error}
+            onClose={() => {
+              setError(undefined);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

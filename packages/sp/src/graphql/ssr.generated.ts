@@ -61,6 +61,15 @@ export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', userId?: string | null, user?: { __typename?: 'User', username?: string | null, isAccountLock?: boolean | null } | null, profile?: { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null, picture?: string | null } | null } | null };
 
+export type ProfileMutationVariables = Exact<{
+  familyName: Scalars['String']['input'];
+  givenName: Scalars['String']['input'];
+  nickname?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ProfileMutation = { __typename?: 'Mutation', changeProfile?: { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null } | null };
+
 
 export const UserInfoDocument = gql`
     query UserInfo {
@@ -79,6 +88,19 @@ export const UserInfoDocument = gql`
   }
 }
     `;
+export const ProfileDocument = gql`
+    mutation Profile($familyName: String!, $givenName: String!, $nickname: String) {
+  changeProfile(
+    familyName: $familyName
+    givenName: $givenName
+    nickname: $nickname
+  ) {
+    familyName
+    givenName
+    nickname
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -89,6 +111,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     UserInfo(variables?: UserInfoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<UserInfoQuery>(UserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UserInfo', 'query', variables);
+    },
+    Profile(variables: ProfileMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProfileMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ProfileMutation>(ProfileDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Profile', 'mutation', variables);
     }
   };
 }

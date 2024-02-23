@@ -3,6 +3,7 @@ import { useState } from "react";
 type ToastProps = {
   message: string;
   type: "success" | "danger" | "warning";
+  onClose?: () => void;
 };
 
 export const Toast = ({ ...props }: ToastProps) => {
@@ -17,6 +18,11 @@ export const Toast = ({ ...props }: ToastProps) => {
   };
 
   if (!isVisible) return null;
+
+  const onClose = () => {
+    props.onClose && props.onClose();
+    setIsVisible(false);
+  };
 
   const icons = {
     success: (
@@ -56,7 +62,7 @@ export const Toast = ({ ...props }: ToastProps) => {
         type="button"
         className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
         aria-label="Close"
-        onClick={() => setIsVisible(false)}
+        onClick={onClose}
       >
         <span className="sr-only">Close</span>
         <svg

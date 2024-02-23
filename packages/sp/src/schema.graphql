@@ -13,3 +13,15 @@ query UserInfo {
     }
   }
 }
+
+mutation Profile($familyName: String!, $givenName: String!, $nickname: String) {
+  changeProfile(
+    familyName: $familyName
+    givenName: $givenName
+    nickname: $nickname
+  ) {
+    familyName
+    givenName
+    nickname
+  }
+}

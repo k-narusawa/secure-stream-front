@@ -2,8 +2,8 @@ overwrite: true
 schema:
   - http://localhost:8081/graphql:
       headers:
-        "Authorization": "Bearer ory_at_BhoqevMnXPyMt1c4DZxLUQtj4Z3yfr_5NDZcGAbWIVo.fipwVucylY8t-g8gYVY_SMuG3DCiTmq_3iEnOKDi4Fc"
-documents: "./src/**/*.graphql"
+        "Authorization": "Bearer ory_at_9nSpEd15NtAdLN3JRnO52DUvdOMaIkRPsRoGY2f3bJE.tecr1ZO8LvvcnHdWWv_irZ2kBVtX41Tz7TRIHhktyOk"
+documents: "./src/schema.graphql"
 generates:
   src/graphql/ssr.generated.ts:
     plugins:
