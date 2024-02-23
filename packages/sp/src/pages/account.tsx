@@ -21,10 +21,12 @@ const AccountSettingsPage = (props: Props) => {
         <UserCard userInfo={props.userInfo} />
         <div className="my-10" />
         <ProfileCard profile={props.userInfo.profile} />
-        <div className="mt-10">
-          <Button onClick={onLogout} disabled={false}>
-            ログアウト
-          </Button>
+        <div className="mt-10 flex justify-center items-center">
+          <div className="w-48">
+            <Button variant="danger" onClick={onLogout} disabled={false}>
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
     );
