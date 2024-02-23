@@ -27,7 +27,7 @@ const ConsentCard = ({ ...props }: ConsentCardProps) => {
         {props.scopes.map((scope, index) => (
           <div key={index}>
             <div className="flex">
-              <div className="flex items-center h-5">
+              <div className="flex items-center h-5 px-8">
                 <input
                   id={scope.name}
                   aria-describedby={props.scopes[index].name}
@@ -61,7 +61,7 @@ const ConsentCard = ({ ...props }: ConsentCardProps) => {
             {errors.scopes.message}
           </p>
         )}
-        <div className="mt-5">
+        <div className="mt-5 px-8">
           <Button type="submit" disabled={!isAllChecked}>
             I accept
           </Button>

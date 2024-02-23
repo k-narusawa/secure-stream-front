@@ -29,14 +29,20 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
 
   return (
     <Card>
-      <div className="text-xl font-medium text-gray-900 text-center">Login</div>
+      <div
+        className="text-xl font-sans font-medium
+      text-gray-900 text-center
+        py-4 px-8"
+      >
+        Login
+      </div>
       {props.error && (
-        <div className="mt-10">
+        <div className="mt-10 font-sans">
           <ErrorAlert error={props.error} />
         </div>
       )}
       <form onSubmit={handleSubmit(props.onLogin)}>
-        <div className="flex flex-col mt-5">
+        <div className="flex flex-col mt-5 px-8">
           <Input
             label="Username"
             type="text"
@@ -48,7 +54,7 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
             }}
           />
         </div>
-        <div className="flex flex-col mt-5">
+        <div className="flex flex-col mt-5 px-8">
           <Input
             label="Password"
             type="password"
@@ -60,7 +66,7 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
           />
         </div>
         <input type="hidden" value={props.csrfToken} />
-        <div className="pt-10 pb-5 px-10 text-center">
+        <div className="pt-10 pb-5 px-10 text-center font-sans">
           <Button type="submit" disabled={!isValid || isSubmitting}>
             Login
           </Button>

@@ -30,6 +30,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
       </div>
 
       <HorizontalLine />
+
       <div className="grid grid-cols-6 py-4 px-8">
         <div className="col-start-1">
           <span className="text-gray-500">Nickname</span>
