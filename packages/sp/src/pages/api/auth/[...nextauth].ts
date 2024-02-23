@@ -31,9 +31,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) return url;
-
-      console.log("redirect", url, baseUrl);
-
       if (url === "signOut") {
         const logoutEndpointUrl = "http://localhost:44444/oauth2/auth/logout";
         return `${logoutEndpointUrl}`;
@@ -69,22 +66,22 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  cookies: {
-    state: {
-      name: `dev_next-auth.state`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: false,
-        maxAge: 900,
-      },
-    },
-    callbackUrl: {
-      name: `__Secure-next-auth.callback-url`,
-      options: { sameSite: "lax", path: "/", secure: false },
-    },
-  },
+  // cookies: {
+  //   state: {
+  //     name: `dev_next-auth.state`,
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       secure: false,
+  //       maxAge: 900,
+  //     },
+  //   },
+  //   callbackUrl: {
+  //     name: `__Secure-next-auth.callback-url`,
+  //     options: { sameSite: "lax", path: "/", secure: false },
+  //   },
+  // },
   debug: true,
 };
 

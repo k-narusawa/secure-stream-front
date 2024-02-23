@@ -1,66 +1,44 @@
-import { gql } from "graphql-request";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { GraphQLClient } from "graphql-request";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import UserInfoCard from "~/components/account/settings/UserInfoCard";
-import { useGraphQL } from "~/hooks/useGraphQL";
+import { UserInfo, getSdk } from "~/graphql/ssr.generated";
 
-const AccountSettingsPage = () => {
-  const { data: session } = useSession();
-  const { queryRequest } = useGraphQL();
-  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
+type Props = {
+  userInfo?: UserInfo;
+};
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const query = `
-          query UserInfo {
-            userInfo {
-                userId
-                user {
-                    username
-                    isAccountLock
-                }
-                profile {
-                    familyName
-                    givenName
-                    nickname
-                    picture
-                }
-            }
-          }    
-      `;
-      queryRequest(session?.accessToken as string, query)
-        .then((res: any) => {
-          const userInfo = res.userInfo as UserInfo;
-          setUserInfo(userInfo);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    };
-    if (session) {
-      fetchUserInfo();
-    }
-  }, [session]);
-
-  if (session) {
+const AccountSettingsPage = (props: Props) => {
+  if (props.userInfo) {
     <></>;
   }
 
-  if (userInfo) {
+  if (props.userInfo) {
     return (
       <div className="pt-10">
-        <UserInfoCard userinfo={userInfo} />
+        <UserInfoCard userinfo={props.userInfo} />
       </div>
     );
   }
 };
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession({ req: context.req });
+  const client = new GraphQLClient(
+    `${process.env.NEXT_PUBLIC_API_URL}/graphql`
+  );
+  client.setHeader("Authorization", `Bearer ${session?.accessToken}`);
+
+  const sdk = getSdk(client);
+  const userInfo = await sdk.UserInfo().then((res) => {
+    return res.userInfo;
+  });
+
   return {
     props: {
-      title: "Account Settings",
+      userInfo: userInfo,
     },
   };
-}
+};
 
 export default AccountSettingsPage;

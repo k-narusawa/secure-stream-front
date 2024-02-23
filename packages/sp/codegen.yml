@@ -2,18 +2,10 @@ overwrite: true
 schema:
   - http://localhost:8081/graphql:
       headers:
-        "Authorization": "Bearer ory_at_lT5S8G6vOU44FzLvEXF4O4A-Ax-9DogpAJS5Y7xvw0Y.ObK70gh3D6uXKiVqobtyDOmRfP_rh0FCJMFY1nXxKlU"
+        "Authorization": "Bearer ory_at_BhoqevMnXPyMt1c4DZxLUQtj4Z3yfr_5NDZcGAbWIVo.fipwVucylY8t-g8gYVY_SMuG3DCiTmq_3iEnOKDi4Fc"
 documents: "./src/**/*.graphql"
 generates:
-  src/graphql/types.ts:
-    plugins:
-      - "typescript"
   src/graphql/ssr.generated.ts:
-    config:
-      fetcher: graphql-request
-    preset: import-types
-    presetConfig:
-      typesPath: "./types"
     plugins:
       - "typescript"
       - "typescript-operations"
