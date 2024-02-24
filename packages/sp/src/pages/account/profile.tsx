@@ -62,7 +62,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const profile = await sdk
     .ProfileOnly()
     .then((res) => {
-      console.log(res);
       return res.userInfo?.profile;
     })
     .catch((err) => {
