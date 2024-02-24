@@ -5,9 +5,10 @@ import { Profile, UserInfo } from "~/graphql/ssr.generated";
 
 export interface UserCardProps {
   userInfo: UserInfo;
+  onWebAuthnRequest: () => void;
 }
 
-const UserCard = ({ userInfo }: UserCardProps) => {
+const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
   return (
     <Card>
       <div className="py-4 px-8 flex justify-between">
@@ -52,6 +53,20 @@ const UserCard = ({ userInfo }: UserCardProps) => {
           <Link href="/account/password">
             <Edit />
           </Link>
+        </div>
+      </div>
+
+      <HorizontalLine />
+
+      <div className="grid grid-cols-6 py-4 px-8">
+        <div className="col-start-1">
+          <span className="text-gray-500">PassKey</span>
+        </div>
+        <div className="col-start-3">Invalid</div>
+        <div className="col-start-6">
+          <button onClick={onWebAuthnRequest}>
+            <Edit />
+          </button>
         </div>
       </div>
     </Card>
