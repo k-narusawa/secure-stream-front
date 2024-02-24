@@ -56,10 +56,24 @@ export type UserInfo = {
   userId?: Maybe<Scalars['String']['output']>;
 };
 
+export type UserProfileFragment = { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null, picture?: string | null };
+
+export type UserInformationFragment = { __typename?: 'User', username?: string | null, isAccountLock?: boolean | null };
+
+export type UserOnlyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserOnlyQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', user?: { __typename?: 'User', username?: string | null, isAccountLock?: boolean | null } | null } | null };
+
+export type ProfileOnlyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProfileOnlyQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', profile?: { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null, picture?: string | null } | null } | null };
+
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', userId?: string | null, user?: { __typename?: 'User', username?: string | null, isAccountLock?: boolean | null } | null, profile?: { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null, picture?: string | null } | null } | null };
+export type UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', user?: { __typename?: 'User', username?: string | null, isAccountLock?: boolean | null } | null, profile?: { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null, picture?: string | null } | null } | null };
 
 export type ProfileMutationVariables = Exact<{
   familyName: Scalars['String']['input'];
@@ -70,24 +84,51 @@ export type ProfileMutationVariables = Exact<{
 
 export type ProfileMutation = { __typename?: 'Mutation', changeProfile?: { __typename?: 'Profile', familyName?: string | null, givenName?: string | null, nickname?: string | null } | null };
 
-
-export const UserInfoDocument = gql`
-    query UserInfo {
+export const UserProfileFragmentDoc = gql`
+    fragment UserProfile on Profile {
+  familyName
+  givenName
+  nickname
+  picture
+}
+    `;
+export const UserInformationFragmentDoc = gql`
+    fragment UserInformation on User {
+  username
+  isAccountLock
+}
+    `;
+export const UserOnlyDocument = gql`
+    query UserOnly {
   userInfo {
-    userId
     user {
-      username
-      isAccountLock
-    }
-    profile {
-      familyName
-      givenName
-      nickname
-      picture
+      ...UserInformation
     }
   }
 }
-    `;
+    ${UserInformationFragmentDoc}`;
+export const ProfileOnlyDocument = gql`
+    query ProfileOnly {
+  userInfo {
+    profile {
+      ...UserProfile
+    }
+  }
+}
+    ${UserProfileFragmentDoc}`;
+export const UserInfoDocument = gql`
+    query UserInfo {
+  userInfo {
+    user {
+      ...UserInformation
+    }
+    profile {
+      ...UserProfile
+    }
+  }
+}
+    ${UserInformationFragmentDoc}
+${UserProfileFragmentDoc}`;
 export const ProfileDocument = gql`
     mutation Profile($familyName: String!, $givenName: String!, $nickname: String) {
   changeProfile(
@@ -109,6 +150,12 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    UserOnly(variables?: UserOnlyQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UserOnlyQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UserOnlyQuery>(UserOnlyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UserOnly', 'query', variables);
+    },
+    ProfileOnly(variables?: ProfileOnlyQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProfileOnlyQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ProfileOnlyQuery>(ProfileOnlyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProfileOnly', 'query', variables);
+    },
     UserInfo(variables?: UserInfoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<UserInfoQuery>(UserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UserInfo', 'query', variables);
     },

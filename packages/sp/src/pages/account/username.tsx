@@ -3,13 +3,13 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import UserNameEditCard from "~/components/pages/account/username/UserNameEditCard";
-import { UserInfo, getSdk } from "~/graphql/ssr.generated";
+import { User, UserInfo, getSdk } from "~/graphql/ssr.generated";
 
 type Props = {
-  userInfo: UserInfo;
+  user: User;
 };
 
-const PasswordPage = ({ userInfo }: Props) => {
+const PasswordPage = ({ user }: Props) => {
   const router = useRouter();
 
   const onSubmit = async (data: UserNameEditFormInputs) => {
@@ -17,7 +17,7 @@ const PasswordPage = ({ userInfo }: Props) => {
     await router.push("/account");
   };
 
-  const username = userInfo.user?.username || "";
+  const username = user?.username || "";
 
   return (
     <div className="pt-10">
@@ -34,17 +34,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   client.setHeader("Authorization", `Bearer ${session?.accessToken}`);
 
   const sdk = getSdk(client);
-  const userInfo = await sdk
-    .UserInfo()
+  const user = await sdk
+    .UserOnly()
     .then((res) => {
-      return res.userInfo;
+      return res.userInfo?.user;
     })
     .catch((err) => {
       console.error(err);
       return null;
     });
 
-  if (!userInfo) {
+  if (!user) {
     return {
       redirect: {
         destination: "/",
@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      userInfo: userInfo,
+      user: user,
     },
   };
 };

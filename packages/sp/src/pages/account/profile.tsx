@@ -4,15 +4,15 @@ import { getSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import ProfileEditCard from "~/components/pages/account/profile/ProfileEditCard";
-import { UserInfo, getSdk } from "~/graphql/ssr.generated";
+import { Profile, UserInfo, getSdk } from "~/graphql/ssr.generated";
 import { useState } from "react";
 import { Toast } from "@/shared-components/src";
 
 type Props = {
-  userInfo: UserInfo;
+  profile: Profile;
 };
 
-const ProfilePage = ({ userInfo }: Props) => {
+const ProfilePage = ({ profile }: Props) => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>();
 
@@ -31,9 +31,9 @@ const ProfilePage = ({ userInfo }: Props) => {
   return (
     <div className="pt-10">
       <ProfileEditCard
-        familyName={userInfo.profile?.familyName || ""}
-        givenName={userInfo.profile?.givenName || ""}
-        nickname={userInfo.profile?.nickname || ""}
+        familyName={profile?.familyName || ""}
+        givenName={profile?.givenName || ""}
+        nickname={profile?.nickname || ""}
         onSubmit={onSubmit}
       />
       {error && (
@@ -59,17 +59,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   client.setHeader("Authorization", `Bearer ${session?.accessToken}`);
 
   const sdk = getSdk(client);
-  const userInfo = await sdk
-    .UserInfo()
+  const profile = await sdk
+    .ProfileOnly()
     .then((res) => {
-      return res.userInfo;
+      console.log(res);
+      return res.userInfo?.profile;
     })
     .catch((err) => {
       console.error(err);
       return null;
     });
 
-  if (!userInfo) {
+  if (!profile) {
     return {
       redirect: {
         destination: "/",
@@ -80,7 +81,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      userInfo: userInfo,
+      profile: profile,
     },
   };
 };

@@ -1,15 +1,38 @@
+fragment UserProfile on Profile {
+  familyName
+  givenName
+  nickname
+  picture
+}
+
+fragment UserInformation on User {
+  username
+  isAccountLock
+}
+
+query UserOnly {
+  userInfo {
+    user {
+      ...UserInformation
+    }
+  }
+}
+
+query ProfileOnly {
+  userInfo {
+    profile {
+      ...UserProfile
+    }
+  }
+}
+
 query UserInfo {
   userInfo {
-    userId
     user {
-      username
-      isAccountLock
+      ...UserInformation
     }
     profile {
-      familyName
-      givenName
-      nickname
-      picture
+      ...UserProfile
     }
   }
 }

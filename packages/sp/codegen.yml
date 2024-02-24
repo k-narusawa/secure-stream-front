@@ -2,7 +2,7 @@ overwrite: true
 schema:
   - http://localhost:8081/graphql:
       headers:
-        "Authorization": "Bearer ory_at_9nSpEd15NtAdLN3JRnO52DUvdOMaIkRPsRoGY2f3bJE.tecr1ZO8LvvcnHdWWv_irZ2kBVtX41Tz7TRIHhktyOk"
+        "Authorization": "Bearer ory_at_48W6BqaR-4PJueJK1gL5E1EwaHJXO-Dv1Y2KFns6knk.5wkWvGnLtLCTSVDZwH662iXgsbecoZ69SzHfFADda3A"
 documents: "./src/schema.graphql"
 generates:
   src/graphql/ssr.generated.ts:
