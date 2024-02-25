@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { getSession, signOut } from "next-auth/react";
 import ProfileCard from "~/components/pages/account/ProfileCard";
 import UserCard from "~/components/pages/account/UserCard";
-import { UserInfo, getSdk } from "~/graphql/ssr.generated";
+import { UserInfo, getSdk } from "~/graphql/types";
 import { useState } from "react";
 import { useWebAuthn } from "~/hooks/useWebauthn";
 

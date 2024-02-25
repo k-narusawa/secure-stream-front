@@ -8,6 +8,8 @@ fragment UserProfile on Profile {
 fragment UserInformation on User {
   username
   isAccountLock
+  mfa
+  passkey
 }
 
 query UserOnly {

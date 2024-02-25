@@ -2,10 +2,10 @@ overwrite: true
 schema:
   - http://localhost:8081/graphql:
       headers:
-        "Authorization": "Bearer ory_at_48W6BqaR-4PJueJK1gL5E1EwaHJXO-Dv1Y2KFns6knk.5wkWvGnLtLCTSVDZwH662iXgsbecoZ69SzHfFADda3A"
+        "Authorization": "Bearer ory_at_YCuv9qbThxij7TNqV5IWREu3ZCHcbP0YSqNAaTeK2Xg.IXFR7Tm-XRprFNh4ELcxTDp68qDVuSnAExRuY7rC3kE"
 documents: "./src/schema.graphql"
 generates:
-  src/graphql/ssr.generated.ts:
+  src/graphql/types.ts:
     plugins:
       - "typescript"
       - "typescript-operations"

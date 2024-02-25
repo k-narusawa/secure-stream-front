@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import UserNameEditCard from "~/components/pages/account/username/UserNameEditCard";
-import { User, UserInfo, getSdk } from "~/graphql/ssr.generated";
+import { User, getSdk } from "~/graphql/types";
 
 type Props = {
   user: User;

@@ -1,7 +1,7 @@
 import { Card, HorizontalLine, PencilIcon } from "@/shared-components/src";
 import Link from "next/link";
 import Edit from "~/components/pages/account/Edit";
-import { Profile, UserInfo } from "~/graphql/ssr.generated";
+import { Profile, UserInfo } from "~/graphql/types";
 
 export interface UserCardProps {
   userInfo: UserInfo;

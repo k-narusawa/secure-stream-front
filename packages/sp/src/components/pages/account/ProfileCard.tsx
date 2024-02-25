@@ -1,7 +1,7 @@
 import { Card, HorizontalLine } from "@/shared-components/src";
 import Link from "next/link";
 import Edit from "~/components/pages/account/Edit";
-import { Profile } from "~/graphql/ssr.generated";
+import { Profile } from "~/graphql/types";
 
 export interface ProfileCardProps {
   profile: Profile;
