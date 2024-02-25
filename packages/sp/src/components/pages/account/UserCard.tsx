@@ -68,7 +68,7 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
           <span className="text-gray-500">PassKey</span>
         </div>
         {userInfo.user?.passkey ? (
-          <div className="col-start-3 text-green-pearl">Enabled</div>
+          <div className="col-start-3 text-green">Enabled</div>
         ) : (
           <div className="col-start-3 text-red">Disabled</div>
         )}
