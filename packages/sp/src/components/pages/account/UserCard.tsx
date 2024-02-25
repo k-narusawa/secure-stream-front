@@ -1,8 +1,11 @@
-import { Card, HorizontalLine, PencilIcon } from "@/shared-components/src";
+import {
+  Card,
+  EditIconLink,
+  HorizontalLine,
+  PencilIcon,
+} from "@/shared-components/src";
 import Link from "next/link";
-import { userInfo } from "os";
-import Edit from "~/components/pages/account/Edit";
-import { Profile, UserInfo } from "~/graphql/types";
+import { UserInfo } from "~/graphql/types";
 
 export interface UserCardProps {
   userInfo: UserInfo;
@@ -24,7 +27,7 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
         <div className="col-start-3">{userInfo.user?.username}</div>
         <div className="col-start-6">
           <Link href="/account/username">
-            <Edit />
+            <EditIconLink />
           </Link>
         </div>
       </div>
@@ -38,7 +41,7 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
         <div className="col-start-3">*********</div>
         <div className="col-start-6">
           <Link href="/account/password">
-            <Edit />
+            <EditIconLink />
           </Link>
         </div>
       </div>
@@ -56,7 +59,7 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
         )}
         <div className="col-start-6">
           <Link href="/account/password">
-            <Edit />
+            <EditIconLink />
           </Link>
         </div>
       </div>
@@ -74,7 +77,7 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
         )}
         <div className="col-start-6">
           <button onClick={onWebAuthnRequest}>
-            <Edit />
+            <EditIconLink />
           </button>
         </div>
       </div>
