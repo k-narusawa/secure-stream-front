@@ -1,5 +1,6 @@
 import { Card, HorizontalLine, PencilIcon } from "@/shared-components/src";
 import Link from "next/link";
+import { userInfo } from "os";
 import Edit from "~/components/pages/account/Edit";
 import { Profile, UserInfo } from "~/graphql/types";
 
@@ -48,7 +49,11 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
         <div className="col-start-1">
           <span className="text-gray-500">MFA</span>
         </div>
-        <div className="col-start-3">None</div>
+        {userInfo.user?.mfa ? (
+          <div className="col-start-3">Enabled</div>
+        ) : (
+          <div className="col-start-3">Disabled</div>
+        )}
         <div className="col-start-6">
           <Link href="/account/password">
             <Edit />
@@ -62,7 +67,11 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
         <div className="col-start-1">
           <span className="text-gray-500">PassKey</span>
         </div>
-        <div className="col-start-3">Invalid</div>
+        {userInfo.user?.passkey ? (
+          <div className="col-start-3">Enabled</div>
+        ) : (
+          <div className="col-start-3">Disabled</div>
+        )}
         <div className="col-start-6">
           <button onClick={onWebAuthnRequest}>
             <Edit />
