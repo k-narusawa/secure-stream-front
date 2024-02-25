@@ -11,10 +11,10 @@ export const Toast = ({ ...props }: ToastProps) => {
 
   const iconColors = {
     success:
-      "text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200",
-    danger: "text-red-500 bg-red-100 dark:bg-red-800 dark:text-red-200",
+      "text-green bg-green-light dark:bg-green-dark dark:text-green-light",
+    danger: "text-red bg-red-light dark:bg-red-dark dark:text-red-light",
     warning:
-      "text-orange-500 bg-orange-100 dark:bg-orange-700 dark:text-orange-200",
+      "text-orange bg-orange-light dark:bg-orange-dark dark:text-orange-light",
   };
 
   if (!isVisible) return null;
@@ -60,7 +60,7 @@ export const Toast = ({ ...props }: ToastProps) => {
       <div className="ml-3 text-sm font-normal">{props.message}</div>
       <button
         type="button"
-        className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+        className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
         aria-label="Close"
         onClick={onClose}
       >

@@ -9,16 +9,16 @@ export const Button = ({
   disabled: boolean;
   [key: string]: any;
 }) => {
-  const baseStyle = "w-full py-2 px-4 font-semibold rounded-lg shadow-md";
+  const baseStyle = "w-full py-2 px-4 font-normal rounded-lg shadow-md";
   let variantStyle = "";
   if (disabled) {
-    variantStyle = "text-gray-500 bg-gray-200 cursor-not-allowed";
+    variantStyle = "text-gray bg-gray-light cursor-not-allowed";
   } else if (variant === "primary") {
-    variantStyle = "text-white bg-blue-500 hover:bg-blue-700";
+    variantStyle = "text-white bg-blue hover:bg-blue-dark";
   } else if (variant === "secondary") {
-    variantStyle = "text-gray-800 bg-gray-300 hover:bg-gray-400";
+    variantStyle = "text-gray-dark bg-gray-light hover:bg-gray";
   } else if (variant === "danger") {
-    variantStyle = "text-white bg-red-500 hover:bg-red-700";
+    variantStyle = "text-white-dark bg-red hover:bg-red-dark";
   }
 
   return (

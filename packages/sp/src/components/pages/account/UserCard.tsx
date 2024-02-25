@@ -50,9 +50,9 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
           <span className="text-gray-500">MFA</span>
         </div>
         {userInfo.user?.mfa ? (
-          <div className="col-start-3">Enabled</div>
+          <div className="col-start-3 text-green">Enabled</div>
         ) : (
-          <div className="col-start-3">Disabled</div>
+          <div className="col-start-3 text-red">Disabled</div>
         )}
         <div className="col-start-6">
           <Link href="/account/password">
@@ -68,9 +68,9 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
           <span className="text-gray-500">PassKey</span>
         </div>
         {userInfo.user?.passkey ? (
-          <div className="col-start-3">Enabled</div>
+          <div className="col-start-3 text-green-pearl">Enabled</div>
         ) : (
-          <div className="col-start-3">Disabled</div>
+          <div className="col-start-3 text-red">Disabled</div>
         )}
         <div className="col-start-6">
           <button onClick={onWebAuthnRequest}>

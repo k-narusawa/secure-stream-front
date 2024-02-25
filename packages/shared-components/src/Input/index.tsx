@@ -47,12 +47,13 @@ export const Input = <T extends FieldValues>(
         type={props.type}
         placeholder={placeholder}
         className={`
-          h-10 px-4
+          h-12 px-4 
           block w-full rounded-md 
-          border-2 border-gray-300 shadow-sm
-          focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 
-          disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500
-          ${error ? "border-rose-300" : ""}
+          border border-gray shadow-sm
+          focus:border-primary-400 focus:ring focus:blue-light focus:ring-opacity-50 
+          disabled:cursor-not-allowed disabled:bg-gray-light disabled:text-gray
+          focus-visible: outline-none
+          ${error ? "border-red-light" : ""}
           ${className}
         `}
         {...field}
