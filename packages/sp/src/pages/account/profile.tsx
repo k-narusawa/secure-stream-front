@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import ProfileEditCard from "~/components/pages/account/profile/ProfileEditCard";
-import { Profile, UserInfo, getSdk } from "~/graphql/types";
+import { Profile, getSdk } from "~/graphql/types";
 import { useState } from "react";
 import { Toast } from "@/shared-components/src";
 

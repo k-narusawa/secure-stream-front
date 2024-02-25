@@ -1,26 +1,14 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  presets: [require("../configs/tailwind/tailwind.config")],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "../shared-components/src/**/*.{js,ts,jsx,tsx}",
+    "../configs/tailwind/tailwind.config.ts",
   ],
-  theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-    },
-    fontFamily: {
-      sans: ["ui-sans-serif", "system-ui", "Noto Sans JP", "sans-serif"],
-      serif: ["ui-serif", "Georgia", "Noto Serif JP", "serif"],
-      mono: ["ui-monospace", "SFMono-Regular", "Noto Sans JP", "sans-serif"],
-    },
-  },
   plugins: [],
 };
 export default config;
