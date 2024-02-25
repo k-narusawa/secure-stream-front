@@ -38,14 +38,16 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
         Login
       </div>
       {props.error && (
-        <div className="mt-10 font-sans">
+        <div className="mt-10 font-sans px-8">
           <ErrorAlert error={props.error} />
         </div>
       )}
       <form onSubmit={handleSubmit(props.onLogin)}>
         <div className="flex flex-col mt-5 px-8">
+          <div className="py-2">
+            <span className="text-gray-500">Username</span>
+          </div>
           <Input
-            label="Username"
             type="text"
             name="username"
             placeholder="test@example.com"
@@ -56,8 +58,10 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
           />
         </div>
         <div className="flex flex-col mt-5 px-8">
+          <div className="">
+            <span className="text-gray-500">Password</span>
+          </div>
           <Input
-            label="Password"
             type="password"
             name="password"
             control={control}

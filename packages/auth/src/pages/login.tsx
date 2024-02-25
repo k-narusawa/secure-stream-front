@@ -69,11 +69,17 @@ const LoginPage = () => {
       })
       .catch((error) => {
         if (error.response.status === 401) {
-          setError("Unauthorized");
+          setError("Authentication has failed.");
         }
+        return;
       });
 
-    await router.push(redirectTo);
+    if (redirectTo) {
+      await router.push(redirectTo);
+      return;
+    }
+
+    setError("Internal Server Error");
   };
 
   const onWebauthnLogin = async () => {
@@ -86,14 +92,23 @@ const LoginPage = () => {
       });
 
     const credentials = await getCredentials(options);
+
     const redirectTo = await postCredentials(
       csrfToken,
       options.flowId,
       credentials,
       loginChallenge
-    );
+    ).catch(() => {
+      console.error("Failed to post credentials");
+      setError("Internal Server Error");
+      return;
+    });
 
-    await router.push(redirectTo);
+    if (redirectTo) {
+      await router.push(redirectTo);
+      return;
+    }
+    setError("Internal Server Error");
   };
 
   return (

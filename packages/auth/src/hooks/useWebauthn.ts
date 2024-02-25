@@ -55,11 +55,10 @@ export const useWebAuthn = () => {
       },
     })
       .then((response) => {
-        console.log(response.data);
         return response.data.redirect_to;
       })
       .catch((error) => {
-        console.log(error.response.data);
+        return undefined;
       });
   };
 

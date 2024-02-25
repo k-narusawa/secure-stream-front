@@ -22,7 +22,11 @@ export const Button = ({
   }
 
   return (
-    <button className={`${baseStyle} ${variantStyle}`} {...props}>
+    <button
+      className={`${baseStyle} ${variantStyle}`}
+      {...props}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

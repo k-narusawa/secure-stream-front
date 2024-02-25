@@ -12,7 +12,7 @@ const ConsentCard = ({ ...props }: ConsentCardProps) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<ConsentFormInputs>({
     mode: "onChange",
   });
@@ -23,50 +23,52 @@ const ConsentCard = ({ ...props }: ConsentCardProps) => {
 
   return (
     <Card>
-      <form onSubmit={handleSubmit(props.onAccept)}>
-        {props.scopes.map((scope, index) => (
-          <div key={index}>
-            <div className="flex">
-              <div className="flex items-center h-5 px-8">
-                <input
-                  id={scope.name}
-                  aria-describedby={props.scopes[index].name}
-                  type="checkbox"
-                  value={scope.name}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  {...register("scopes", {
-                    required: "You must accept.",
-                  })}
-                ></input>
-              </div>
-              <div className="ms-2 text-sm">
-                <label
-                  htmlFor="helper-checkbox"
-                  className="font-medium text-gray-900 dark:text-gray-300"
-                >
-                  {scope.name}
-                </label>
-                <p
-                  id={props.scopes[index].name}
-                  className="text-xs font-normal text-gray-500 dark:text-gray-300"
-                >
-                  scope description
-                </p>
+      <div className="py-4">
+        <form onSubmit={handleSubmit(props.onAccept)}>
+          {props.scopes.map((scope, index) => (
+            <div key={index}>
+              <div className="flex">
+                <div className="flex items-center h-5 px-8">
+                  <input
+                    id={scope.name}
+                    aria-describedby={props.scopes[index].name}
+                    type="checkbox"
+                    value={scope.name}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    {...register("scopes", {
+                      required: "You must accept.",
+                    })}
+                  ></input>
+                </div>
+                <div className="ms-2 text-sm">
+                  <label
+                    htmlFor="helper-checkbox"
+                    className="font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    {scope.name}
+                  </label>
+                  <p
+                    id={props.scopes[index].name}
+                    className="text-xs font-normal text-gray-500 dark:text-gray-300"
+                  >
+                    scope description
+                  </p>
+                </div>
               </div>
             </div>
+          ))}
+          {errors.scopes && (
+            <p className="px-8 text-xs text-red-dark dark:text-red-dark">
+              {errors.scopes.message}
+            </p>
+          )}
+          <div className="mt-5 px-8">
+            <Button type="submit" disabled={!isAllChecked}>
+              I accept
+            </Button>
           </div>
-        ))}
-        {errors.scopes && (
-          <p className="text-xs text-red-500 dark:text-red-400">
-            {errors.scopes.message}
-          </p>
-        )}
-        <div className="mt-5 px-8">
-          <Button type="submit" disabled={!isAllChecked}>
-            I accept
-          </Button>
-        </div>
-      </form>
+        </form>
+      </div>
     </Card>
   );
 };

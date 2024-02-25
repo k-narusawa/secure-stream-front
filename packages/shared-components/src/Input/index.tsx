@@ -7,7 +7,6 @@ import {
 } from "react-hook-form";
 
 type Props = {
-  label?: string | undefined;
   className?: string | undefined;
   placeholder?: string | undefined;
   type: string;
@@ -33,16 +32,6 @@ export const Input = <T extends FieldValues>(
 
   return (
     <div>
-      {props.label && (
-        <label
-          className={`
-          mb-1 block text-sm font-medium text-gray-700 
-          after:ml-0.5 after:text-red-500 after:content-['*']
-          `}
-        >
-          {props.label}
-        </label>
-      )}
       <input
         type={props.type}
         placeholder={placeholder}
