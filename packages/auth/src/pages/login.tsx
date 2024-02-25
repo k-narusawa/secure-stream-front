@@ -4,12 +4,16 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toast } from "@/shared-components/src";
+import { useWebAuthn } from "~/hooks/useWebauthn";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("test@example.com");
   const [password, setPassword] = useState("!Password0");
   const [csrfToken, setCsrfToken] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
+
+  const { getCredentials, postCredentials } = useWebAuthn();
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const loginChallenge = searchParams.get("login_challenge");
@@ -72,6 +76,26 @@ const LoginPage = () => {
     await router.push(redirectTo);
   };
 
+  const onWebauthnLogin = async () => {
+    const options = await axios(`${apiHost}/api/v1/login/webauthn/request`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch(() => {
+        setError("Internal Server Error");
+      });
+
+    const credentials = await getCredentials(options);
+    const redirectTo = await postCredentials(
+      csrfToken,
+      options.flowId,
+      credentials,
+      loginChallenge
+    );
+
+    await router.push(redirectTo);
+  };
+
   return (
     <div className="pt-20">
       <LoginCard
@@ -82,6 +106,7 @@ const LoginPage = () => {
         setUsername={setUsername}
         setPassword={setPassword}
         onLogin={onLogin}
+        onWebauthnLogin={onWebauthnLogin}
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import { Button, Input, Card } from "@/shared-components/src";
+import { Button, Input, Card, HorizontalLine } from "@/shared-components/src";
 import ErrorAlert from "~/components/pages/login/ErrorAlert";
 import { useForm } from "react-hook-form";
 
@@ -10,6 +10,7 @@ type LoginCardProps = {
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   onLogin: (data: LoginFormInputs) => void;
+  onWebauthnLogin: () => void;
 };
 
 const LoginCard = ({ ...props }: LoginCardProps) => {
@@ -72,6 +73,13 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
           </Button>
         </div>
       </form>
+      <HorizontalLine />
+
+      <div className="pt-5 pb-5 px-10 text-center font-sans">
+        <Button type="button" onClick={props.onWebauthnLogin} disabled={false}>
+          Use PassKey
+        </Button>
+      </div>
     </Card>
   );
 };
