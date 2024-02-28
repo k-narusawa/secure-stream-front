@@ -5,4 +5,4 @@ export { Card } from "./Card";
 export { Toast } from "./Toast";
 export { HorizontalLine } from "./HorizontalLine";
 export { PencilIcon } from "./Icon";
-export { EditIconLink } from "./IconLink";
+export { EditIconLink, DeleteIconLink } from "./IconLink";

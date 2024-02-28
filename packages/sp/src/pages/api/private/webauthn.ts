@@ -12,28 +12,47 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const data = req.body.data as RegisterWebauthnRequest;
   const session = await getServerSession(req, res, authOptions);
-
   const config = new Configuration({
     accessToken: session?.accessToken,
   });
-
   const webauthnApi = new WebauthnApi(config, undefined, apiAxios);
 
-  const apiResponse = await webauthnApi
-    .registerWebauthn(data)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      return null;
-    });
+  if (req.method === "POST") {
+    const data = req.body.data as RegisterWebauthnRequest;
 
-  if (apiResponse === null) {
-    res.status(500).json(undefined);
-    return;
+    const apiResponse = await webauthnApi
+      .registerWebauthn(data)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        return null;
+      });
+
+    if (apiResponse === null) {
+      res.status(500).json(undefined);
+      return;
+    }
+
+    res.status(200).json(undefined);
+  } else if (req.method === "DELETE") {
+    const apiResponse = await webauthnApi
+      .deleteWebauthn()
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        return null;
+      });
+
+    if (apiResponse === null) {
+      res.status(500).json(undefined);
+      return;
+    }
+
+    res.status(200).json(undefined);
   }
 
-  res.status(200).json(undefined);
+  res.status(405).json(undefined);
 }

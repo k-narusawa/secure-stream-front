@@ -1,8 +1,8 @@
 import {
   Card,
+  DeleteIconLink,
   EditIconLink,
   HorizontalLine,
-  PencilIcon,
 } from "@/shared-components/src";
 import Link from "next/link";
 import { UserInfo } from "~/graphql/types";
@@ -10,9 +10,14 @@ import { UserInfo } from "~/graphql/types";
 export interface UserCardProps {
   userInfo: UserInfo;
   onWebAuthnRequest: () => void;
+  onWebAuthnDelete: () => void;
 }
 
-const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
+const UserCard = ({
+  userInfo,
+  onWebAuthnRequest,
+  onWebAuthnDelete,
+}: UserCardProps) => {
   return (
     <Card>
       <div className="py-4 px-8 flex justify-between">
@@ -71,15 +76,24 @@ const UserCard = ({ userInfo, onWebAuthnRequest }: UserCardProps) => {
           <span className="text-gray-500">PassKey</span>
         </div>
         {userInfo.user?.passkey ? (
-          <div className="col-start-3 text-green">Enabled</div>
+          <>
+            <div className="col-start-3 text-green">Enabled</div>
+            <div className="col-start-6">
+              <button onClick={onWebAuthnDelete}>
+                <DeleteIconLink />
+              </button>
+            </div>
+          </>
         ) : (
-          <div className="col-start-3 text-red">Disabled</div>
+          <>
+            <div className="col-start-3 text-red">Disabled</div>
+            <div className="col-start-6">
+              <button onClick={onWebAuthnRequest}>
+                <EditIconLink />
+              </button>
+            </div>
+          </>
         )}
-        <div className="col-start-6">
-          <button onClick={onWebAuthnRequest}>
-            <EditIconLink />
-          </button>
-        </div>
       </div>
     </Card>
   );

@@ -13,8 +13,12 @@ type Props = {
 };
 
 const AccountSettingsPage = (props: Props) => {
-  const { requestRegistration, createCredentials, registerCredentials } =
-    useWebAuthn();
+  const {
+    requestRegistration,
+    createCredentials,
+    registerCredentials,
+    deleteWebauthn,
+  } = useWebAuthn();
   const [completeMsg, setCompleteMsg] = useState<string | undefined>();
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
 
@@ -38,11 +42,16 @@ const AccountSettingsPage = (props: Props) => {
       });
   };
 
+  const onWebAuthnDelete = async () => {
+    await deleteWebauthn();
+  };
+
   if (props.userInfo?.profile) {
     return (
       <div className="pt-10">
         <UserCard
           onWebAuthnRequest={onWebAuthnRequest}
+          onWebAuthnDelete={onWebAuthnDelete}
           userInfo={props.userInfo}
         />
         <div className="my-10" />

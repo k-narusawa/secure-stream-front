@@ -61,10 +61,22 @@ export const useWebAuthn = () => {
       });
   };
 
+  const deleteWebauthn = async () => {
+    await axios
+      .delete(`/api/private/webauthn`)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+  };
+
   return {
     requestRegistration,
     createCredentials,
     registerCredentials,
+    deleteWebauthn,
   };
 };
 
