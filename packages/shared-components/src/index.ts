@@ -6,3 +6,4 @@ export { Toast } from "./Toast";
 export { HorizontalLine } from "./HorizontalLine";
 export { PencilIcon } from "./Icon";
 export { EditIconLink, DeleteIconLink } from "./IconLink";
+export { Modal } from "./Modal";
