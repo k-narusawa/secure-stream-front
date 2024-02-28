@@ -3,31 +3,37 @@ import console from "console";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]";
+import {
+  RequestWebauthnRegistration,
+  WebauthnApi,
+} from "@/secure-stream-openapi/typescript/api";
+import result from "postcss/lib/result";
+import { apiAxios } from "~/libs/axios";
+import { Configuration } from "@/secure-stream-openapi/typescript/configuration";
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<RequestWebauthnRegistration>
 ) {
   const session = await getServerSession(req, res, authOptions);
 
-  const apiResponse = await axios(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/webauthn/request`,
-    {
-      headers: {
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-    }
-  )
+  const config = new Configuration({
+    accessToken: session?.accessToken,
+  });
+
+  const webauthnApi = new WebauthnApi(config, undefined, apiAxios);
+
+  const apiResponse = await webauthnApi
+    .requestWebauthnRegistration()
     .then((res) => {
       return res.data;
     })
     .catch((err) => {
-      console.error(err);
       return null;
     });
 
-  if (!apiResponse) {
-    res.status(500).json({ error: "Internal Server Error" });
+  if (apiResponse === null) {
+    res.status(500);
     return;
   }
 

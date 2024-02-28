@@ -34,6 +34,7 @@ const AccountSettingsPage = (props: Props) => {
         setCompleteMsg("Registration Complete");
       })
       .catch((err) => {
+        console.log(err);
         setErrorMsg("Failed to register credentials");
       });
   };

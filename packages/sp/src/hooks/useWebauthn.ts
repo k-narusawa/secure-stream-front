@@ -1,10 +1,11 @@
 import base64url from "base64url";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { RequestWebauthnRegistration } from "@/secure-stream-openapi/typescript/api";
 
 export const useWebAuthn = () => {
   const requestRegistration = async () => {
     return await axios(`/api/private/webauthn/request`)
-      .then((res) => {
+      .then((res: AxiosResponse<RequestWebauthnRegistration>) => {
         return res.data;
       })
       .catch((err) => {
@@ -34,22 +35,30 @@ export const useWebAuthn = () => {
   };
 
   const registerCredentials = async (flowId: string, credentials: any) => {
-    await axios(`/api/private/webauthn`, {
-      method: "POST",
-      withCredentials: true,
-      data: {
-        flowId: flowId,
-        id: credentials.id,
-        rawId: base64url.encode(credentials.rawId),
-        type: credentials.type,
-        response: {
-          attestationObject: base64url.encode(
-            credentials.response.attestationObject
-          ),
-          clientDataJSON: base64url.encode(credentials.response.clientDataJSON),
+    await axios
+      .post(`/api/private/webauthn`, {
+        withCredentials: true,
+        data: {
+          flowId: flowId,
+          id: credentials.id,
+          rawId: base64url.encode(credentials.rawId),
+          type: credentials.type,
+          response: {
+            attestationObject: base64url.encode(
+              credentials.response.attestationObject
+            ),
+            clientDataJSON: base64url.encode(
+              credentials.response.clientDataJSON
+            ),
+          },
         },
-      },
-    });
+      })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        return null;
+      });
   };
 
   return {
