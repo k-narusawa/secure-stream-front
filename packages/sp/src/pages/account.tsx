@@ -21,6 +21,9 @@ const AccountSettingsPage = (props: Props) => {
   } = useWebAuthn();
   const [completeMsg, setCompleteMsg] = useState<string | undefined>();
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
+  const [webauthn, setWebauthn] = useState(
+    props.userInfo.user?.passkey ?? false
+  );
 
   const onLogout = async () => {
     signOut();
@@ -35,6 +38,7 @@ const AccountSettingsPage = (props: Props) => {
     const credentials = await createCredentials(res);
     await registerCredentials(res.flowId, credentials)
       .then(() => {
+        setWebauthn(true);
         setCompleteMsg("Registration Complete");
       })
       .catch((err) => {
@@ -44,6 +48,7 @@ const AccountSettingsPage = (props: Props) => {
 
   const onWebAuthnDelete = async () => {
     await deleteWebauthn();
+    setWebauthn(false);
   };
 
   if (props.userInfo?.profile) {
@@ -53,6 +58,7 @@ const AccountSettingsPage = (props: Props) => {
           onWebAuthnRequest={onWebAuthnRequest}
           onWebAuthnDelete={onWebAuthnDelete}
           userInfo={props.userInfo}
+          webauthn={webauthn}
         />
         <div className="my-10" />
         <ProfileCard profile={props.userInfo.profile} />

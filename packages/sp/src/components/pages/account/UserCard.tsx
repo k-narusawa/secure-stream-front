@@ -9,12 +9,14 @@ import { UserInfo } from "~/graphql/types";
 
 export interface UserCardProps {
   userInfo: UserInfo;
+  webauthn: boolean;
   onWebAuthnRequest: () => void;
   onWebAuthnDelete: () => void;
 }
 
 const UserCard = ({
   userInfo,
+  webauthn,
   onWebAuthnRequest,
   onWebAuthnDelete,
 }: UserCardProps) => {
@@ -75,7 +77,7 @@ const UserCard = ({
         <div className="col-start-1">
           <span className="text-gray-500">PassKey</span>
         </div>
-        {userInfo.user?.passkey ? (
+        {webauthn ? (
           <>
             <div className="col-start-3 text-green">Enabled</div>
             <div className="col-start-6">
