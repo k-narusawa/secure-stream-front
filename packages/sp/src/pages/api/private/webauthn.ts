@@ -3,7 +3,6 @@ import {
   WebauthnApi,
 } from "@/secure-stream-openapi/typescript/api";
 import { Configuration } from "@/secure-stream-openapi/typescript/configuration";
-import console from "console";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { apiAxios } from "~/libs/axios";
@@ -13,7 +12,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const data = req.body as RegisterWebauthnRequest;
+  const data = req.body.data as RegisterWebauthnRequest;
   const session = await getServerSession(req, res, authOptions);
 
   const config = new Configuration({

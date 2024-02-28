@@ -1,5 +1,3 @@
-import axios from "axios";
-import console from "console";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]";
@@ -7,7 +5,6 @@ import {
   RequestWebauthnRegistration,
   WebauthnApi,
 } from "@/secure-stream-openapi/typescript/api";
-import result from "postcss/lib/result";
 import { apiAxios } from "~/libs/axios";
 import { Configuration } from "@/secure-stream-openapi/typescript/configuration";
 

@@ -30,7 +30,7 @@ export const useWebAuthn = () => {
       })
       .catch((error) => {
         console.log(error);
-        return null;
+        throw new Error("Failed to create credentials");
       });
   };
 
@@ -57,7 +57,7 @@ export const useWebAuthn = () => {
         return res;
       })
       .catch((err) => {
-        return null;
+        throw new Error(err);
       });
   };
 
