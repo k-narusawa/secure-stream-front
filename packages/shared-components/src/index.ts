@@ -1,9 +1,13 @@
-import { PencilIcon } from "./Icon/index";
 export { Button } from "./Button";
 export { Input } from "./Input";
 export { Card } from "./Card";
 export { Toast } from "./Toast";
 export { HorizontalLine } from "./HorizontalLine";
-export { PencilIcon } from "./Icon";
-export { EditIconLink, DeleteIconLink } from "./IconLink";
+export { PencilIcon, LinkIcon } from "./Icon";
+export {
+  EditIconLink,
+  DeleteIconLink,
+  ConnectIconLink,
+  DisconnectIconLink,
+} from "./IconLink";
 export { Modal } from "./Modal";
