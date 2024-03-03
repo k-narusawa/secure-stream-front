@@ -1,15 +1,23 @@
 export const Button = ({
   children,
   variant = "primary",
+  size = "default",
   disabled,
   ...props
 }: {
   children: React.ReactNode;
   variant?: string;
+  size?: string;
   disabled: boolean;
   [key: string]: any;
 }) => {
-  const baseStyle = "w-full py-2 px-4 font-normal rounded-lg shadow-md";
+  let baseStyle = "py-2 px-4 font-normal rounded-lg shadow-md";
+  if (size === "small") {
+    baseStyle = "py-1 px-2 font-small rounded-md shadow-sm";
+  } else if (size === "large") {
+    baseStyle = "py-3 px-6 font-large rounded-xl shadow-lg";
+  }
+
   let variantStyle = "";
   if (disabled) {
     variantStyle = "text-gray bg-gray-light cursor-not-allowed";

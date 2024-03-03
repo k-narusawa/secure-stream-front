@@ -1,10 +1,9 @@
 import { SocialLoginUrls } from "@/secure-stream-openapi/typescript/api";
 import {
+  Button,
   Card,
-  ConnectIconLink,
-  DisconnectIconLink,
-  EditIconLink,
   HorizontalLine,
+  LinkIcon,
   Modal,
 } from "@/shared-components/src";
 import router from "next/router";
@@ -18,6 +17,8 @@ export interface SocialLoginCardProps {
 }
 
 const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
+  const [github, setGitHub] = useState(socialLogin.github);
+  const [google, setGoogle] = useState(socialLogin.google);
   const [onModal, setOnModal] = useState(false);
   const [error, setError] = useState<string | undefined>();
 
@@ -47,6 +48,16 @@ const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
   };
 
   const onDisconnect = async (provider: string) => {
+    switch (provider) {
+      case "github":
+        setGitHub(false);
+        break;
+      case "google":
+        setGoogle(false);
+        break;
+      default:
+        break;
+    }
     await axios
       .delete(`/api/private/social_login?provider=${provider}`)
       .catch((err) => {
@@ -76,24 +87,39 @@ const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
         <HorizontalLine />
 
         <div className="flex justify-between py-4 px-8">
-          <span className="text-gray-500">GitHub</span>
+          <span className="text-gray-500 leading-7 ">GitHub</span>
 
-          {socialLogin.github ? (
-            <button
+          {github ? (
+            <Button
               onClick={() => {
                 onDisconnect("github");
               }}
+              disabled={false}
+              size="small"
+              variant="danger"
             >
-              <DisconnectIconLink />
-            </button>
+              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
+                <div className="w-4 h-4 mx-1">
+                  <LinkIcon />
+                </div>
+                <span className="">disconnect</span>
+              </div>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={() => {
                 onConnect("github");
               }}
+              disabled={false}
+              size="small"
             >
-              <ConnectIconLink />
-            </button>
+              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
+                <div className="w-4 h-4 mx-1">
+                  <LinkIcon />
+                </div>
+                <span className="">connect</span>
+              </div>
+            </Button>
           )}
         </div>
         <HorizontalLine />
@@ -101,22 +127,37 @@ const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
         <div className="flex justify-between py-4 px-8">
           <span className="text-gray-500">Google</span>
 
-          {socialLogin.google ? (
-            <button
+          {google ? (
+            <Button
               onClick={() => {
                 onDisconnect("google");
               }}
+              disabled={false}
+              size="small"
+              variant="danger"
             >
-              <DisconnectIconLink />
-            </button>
+              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
+                <div className="w-4 h-4 mx-1">
+                  <LinkIcon />
+                </div>
+                <span className="">disconnect</span>
+              </div>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={() => {
                 onConnect("google");
               }}
+              disabled={false}
+              size="small"
             >
-              <ConnectIconLink />
-            </button>
+              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
+                <div className="w-4 h-4 mx-1">
+                  <LinkIcon />
+                </div>
+                <span className="">connect</span>
+              </div>
+            </Button>
           )}
         </div>
       </Card>
