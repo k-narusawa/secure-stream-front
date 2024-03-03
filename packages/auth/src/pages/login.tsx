@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState("test@example.com");
   const [password, setPassword] = useState("!Password0");
   const [csrfToken, setCsrfToken] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
 
   const { getCredentials, postCredentials } = useWebAuthn();
@@ -35,6 +36,7 @@ const LoginPage = () => {
               router.push(response.data.redirect_to);
             }
             setCsrfToken(response.data.csrf_token);
+            setGithubUrl(response.data.github_login_url);
           })
           .catch(() => {
             setError("Internal Server Error");
@@ -118,6 +120,7 @@ const LoginPage = () => {
         password={password}
         csrfToken={csrfToken}
         error={error}
+        githubUrl={githubUrl}
         setUsername={setUsername}
         setPassword={setPassword}
         onLogin={onLogin}

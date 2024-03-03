@@ -1,12 +1,14 @@
 import { Button, Input, Card, HorizontalLine } from "@/shared-components/src";
 import ErrorAlert from "~/components/pages/login/ErrorAlert";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 type LoginCardProps = {
   username: string;
   password: string;
   csrfToken: string;
   error: string | undefined;
+  githubUrl: string;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   onLogin: (data: LoginFormInputs) => void;
@@ -27,6 +29,7 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
     },
     mode: "onBlur",
   });
+  const router = useRouter();
 
   return (
     <Card>
@@ -77,6 +80,21 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
           </Button>
         </div>
       </form>
+
+      <HorizontalLine />
+
+      <div className="pt-5 pb-5 px-10 text-center font-sans">
+        <Button
+          type="button"
+          onClick={async () => {
+            await router.push(props.githubUrl);
+          }}
+          disabled={false}
+        >
+          GitHub Login
+        </Button>
+      </div>
+
       <HorizontalLine />
 
       <div className="pt-5 pb-5 px-10 text-center font-sans">
