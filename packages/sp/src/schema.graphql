@@ -12,6 +12,11 @@ fragment UserInformation on User {
   passkey
 }
 
+fragment UserSocialLogin on SocialLogin {
+  google
+  github
+}
+
 query UserOnly {
   userInfo {
     user {
@@ -24,6 +29,14 @@ query ProfileOnly {
   userInfo {
     profile {
       ...UserProfile
+    }
+  }
+}
+
+query SocialLoginOnly {
+  userInfo {
+    socialLogin {
+      ...UserSocialLogin
     }
   }
 }

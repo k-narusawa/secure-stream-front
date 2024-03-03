@@ -123,6 +123,20 @@ const UserCard = ({
             </>
           )}
         </div>
+
+        <HorizontalLine />
+
+        <div className="grid grid-cols-6 py-4 px-8">
+          <div className="col-start-1">
+            <span className="text-gray-500">Social</span>
+          </div>
+          <div className="col-start-3 text-green"></div>
+          <div className="col-start-6">
+            <Link href="/account/social_login">
+              <EditIconLink />
+            </Link>
+          </div>
+        </div>
       </Card>
     </>
   );
