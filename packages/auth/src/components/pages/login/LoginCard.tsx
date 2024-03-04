@@ -81,6 +81,14 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
         </div>
       </form>
 
+      <div className="text-center pb-5">
+        <button onClick={props.onWebauthnLogin}>
+          <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Use Passkey
+          </a>
+        </button>
+      </div>
+
       <HorizontalLine />
 
       <div className="pt-5 pb-5 px-10 text-center font-sans">
@@ -92,14 +100,6 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
           disabled={false}
         >
           GitHub Login
-        </Button>
-      </div>
-
-      <HorizontalLine />
-
-      <div className="pt-5 pb-5 px-10 text-center font-sans">
-        <Button type="button" onClick={props.onWebauthnLogin} disabled={false}>
-          Use PassKey
         </Button>
       </div>
     </Card>
