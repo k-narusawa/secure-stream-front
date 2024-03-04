@@ -1,5 +1,11 @@
 import { SocialLoginUrls } from "@/secure-stream-openapi/typescript/api";
-import { Card, HorizontalLine, Modal } from "@/shared-components/src";
+import {
+  Card,
+  GitHubIcon,
+  GoogleIcon,
+  HorizontalLine,
+  Modal,
+} from "@/shared-components/src";
 import router from "next/router";
 import { useState } from "react";
 import { SocialLogin } from "~/graphql/types";
@@ -83,23 +89,34 @@ const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
         <HorizontalLine />
 
         <div className="flex justify-between py-4 px-8">
-          <span className="text-gray-500 leading-7">GitHub</span>
-
-          {github ? (
-            <DisconnectButton provider="github" onDisconnect={onDisconnect} />
-          ) : (
-            <ConnectButton provider="github" onConnect={onConnect} />
-          )}
-        </div>
-        <HorizontalLine />
-
-        <div className="flex justify-between py-4 px-8">
-          <span className="text-gray-500">Google</span>
+          <div className="flex items-center">
+            <div className="h-6 w-6">
+              <GoogleIcon />
+            </div>
+            <span className="ml-1 text-gray-500 leading-7">Google</span>
+          </div>
 
           {google ? (
             <DisconnectButton provider="google" onDisconnect={onDisconnect} />
           ) : (
             <ConnectButton provider="google" onConnect={onConnect} />
+          )}
+        </div>
+
+        <HorizontalLine />
+
+        <div className="flex justify-between py-4 px-8">
+          <div className="flex items-center">
+            <div className="h-6 w-6">
+              <GitHubIcon />
+            </div>
+            <span className="ml-1 text-gray-500 leading-7">GitHub</span>
+          </div>
+
+          {github ? (
+            <DisconnectButton provider="github" onDisconnect={onDisconnect} />
+          ) : (
+            <ConnectButton provider="github" onConnect={onConnect} />
           )}
         </div>
       </Card>
