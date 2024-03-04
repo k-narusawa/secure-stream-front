@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toast } from "@/shared-components/src";
 import { useWebAuthn } from "~/hooks/useWebauthn";
+import { sign } from "crypto";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("test@example.com");
@@ -83,7 +84,7 @@ const LoginPage = () => {
       return;
     }
 
-    setError("Internal Server Error");
+    await router.push("http://localhost:3000/error");
   };
 
   const onWebauthnLogin = async () => {
@@ -103,7 +104,6 @@ const LoginPage = () => {
       credentials,
       loginChallenge
     ).catch(() => {
-      console.error("Failed to post credentials");
       setError("Internal Server Error");
       return;
     });
