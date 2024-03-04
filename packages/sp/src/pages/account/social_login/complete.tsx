@@ -1,21 +1,14 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { Button } from "@/shared-components/src";
+import { Button, Card, HorizontalLine } from "@/shared-components/src";
+import CompleteCard from "~/components/pages/account/social_login/complete/CompleteCard";
 
 const SocialLoginConnectCompletePage = () => {
   const router = useRouter();
 
   return (
     <div className="pt-10">
-      <Button
-        type="primary"
-        onClick={async () => {
-          await router.push("/account");
-        }}
-        disabled={false}
-      >
-        Complete Connect with GitHub
-      </Button>
+      <CompleteCard />
     </div>
   );
 };
