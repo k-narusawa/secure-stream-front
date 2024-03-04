@@ -44,7 +44,9 @@ const LoginPage = () => {
       }
     };
 
-    loginRequest();
+    if (loginChallenge) {
+      loginRequest();
+    }
 
     return () => {
       ignore = true;

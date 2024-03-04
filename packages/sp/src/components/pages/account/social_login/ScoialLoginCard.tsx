@@ -1,11 +1,5 @@
 import { SocialLoginUrls } from "@/secure-stream-openapi/typescript/api";
-import {
-  Button,
-  Card,
-  HorizontalLine,
-  LinkIcon,
-  Modal,
-} from "@/shared-components/src";
+import { Card, HorizontalLine, Modal } from "@/shared-components/src";
 import router from "next/router";
 import { useState } from "react";
 import { SocialLogin } from "~/graphql/types";

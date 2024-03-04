@@ -57,6 +57,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return null;
     });
 
+  if (!urls || !socialLogin) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       urls: urls,
