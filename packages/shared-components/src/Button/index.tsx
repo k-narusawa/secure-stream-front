@@ -11,11 +11,11 @@ export const Button = ({
   disabled: boolean;
   [key: string]: any;
 }) => {
-  let baseStyle = "py-2 px-4 font-normal rounded-lg shadow-md";
+  let baseStyle = "w-full py-2 px-4 font-normal rounded-lg shadow-md";
   if (size === "small") {
-    baseStyle = "py-1 px-2 font-small rounded-md shadow-sm";
+    baseStyle = "w-full py-1 px-2 font-small rounded-md shadow-sm";
   } else if (size === "large") {
-    baseStyle = "py-3 px-6 font-large rounded-xl shadow-lg";
+    baseStyle = "w-full py-3 px-6 font-large rounded-xl shadow-lg";
   }
 
   let variantStyle = "";

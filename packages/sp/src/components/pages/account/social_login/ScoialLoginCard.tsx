@@ -10,6 +10,8 @@ import router from "next/router";
 import { useState } from "react";
 import { SocialLogin } from "~/graphql/types";
 import axios from "axios";
+import ConnectButton from "~/components/pages/account/social_login/ConnectButton";
+import DisconnectButton from "~/components/pages/account/social_login/DisconnectButton";
 
 export interface SocialLoginCardProps {
   urls: SocialLoginUrls;
@@ -81,45 +83,18 @@ const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
       )}
       <Card>
         <div className="py-4 px-8 flex justify-between">
-          <div className=" text-xl font-sans">Social Login</div>
+          <div className="text-xl font-sans">Social Login</div>
         </div>
 
         <HorizontalLine />
 
         <div className="flex justify-between py-4 px-8">
-          <span className="text-gray-500 leading-7 ">GitHub</span>
+          <span className="text-gray-500 leading-7">GitHub</span>
 
           {github ? (
-            <Button
-              onClick={() => {
-                onDisconnect("github");
-              }}
-              disabled={false}
-              size="small"
-              variant="danger"
-            >
-              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
-                <div className="w-4 h-4 mx-1">
-                  <LinkIcon />
-                </div>
-                <span className="">disconnect</span>
-              </div>
-            </Button>
+            <DisconnectButton provider="github" onDisconnect={onDisconnect} />
           ) : (
-            <Button
-              onClick={() => {
-                onConnect("github");
-              }}
-              disabled={false}
-              size="small"
-            >
-              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
-                <div className="w-4 h-4 mx-1">
-                  <LinkIcon />
-                </div>
-                <span className="">connect</span>
-              </div>
-            </Button>
+            <ConnectButton provider="github" onConnect={onConnect} />
           )}
         </div>
         <HorizontalLine />
@@ -128,36 +103,9 @@ const SocialLoginCard = ({ urls, socialLogin }: SocialLoginCardProps) => {
           <span className="text-gray-500">Google</span>
 
           {google ? (
-            <Button
-              onClick={() => {
-                onDisconnect("google");
-              }}
-              disabled={false}
-              size="small"
-              variant="danger"
-            >
-              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
-                <div className="w-4 h-4 mx-1">
-                  <LinkIcon />
-                </div>
-                <span className="">disconnect</span>
-              </div>
-            </Button>
+            <DisconnectButton provider="google" onDisconnect={onDisconnect} />
           ) : (
-            <Button
-              onClick={() => {
-                onConnect("google");
-              }}
-              disabled={false}
-              size="small"
-            >
-              <div className="pr-1 text-md font-sans flex items-center hover:cursor-pointer">
-                <div className="w-4 h-4 mx-1">
-                  <LinkIcon />
-                </div>
-                <span className="">connect</span>
-              </div>
-            </Button>
+            <ConnectButton provider="google" onConnect={onConnect} />
           )}
         </div>
       </Card>
