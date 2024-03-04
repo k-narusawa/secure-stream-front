@@ -25,6 +25,8 @@ export const Button = ({
     variantStyle = "text-white bg-blue hover:bg-blue-dark";
   } else if (variant === "secondary") {
     variantStyle = "text-gray-dark bg-gray-light hover:bg-gray";
+  } else if (variant === "alternative") {
+    variantStyle = "text-black bg-white hover:bg-gray-light";
   } else if (variant === "danger") {
     variantStyle = "text-white-dark bg-red hover:bg-red-dark";
   }

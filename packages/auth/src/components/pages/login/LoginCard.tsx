@@ -1,4 +1,11 @@
-import { Button, Input, Card, HorizontalLine } from "@/shared-components/src";
+import {
+  Button,
+  Input,
+  Card,
+  HorizontalLine,
+  GitHubIcon,
+  GoogleIcon,
+} from "@/shared-components/src";
 import ErrorAlert from "~/components/pages/login/ErrorAlert";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -91,16 +98,40 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
 
       <HorizontalLine />
 
-      <div className="pt-5 pb-5 px-10 text-center font-sans">
-        <Button
-          type="button"
-          onClick={async () => {
-            await router.push(props.githubUrl);
-          }}
-          disabled={false}
-        >
-          GitHub Login
-        </Button>
+      <div className="px-10 py-5 text-center font-sans">
+        <div className="">
+          <Button
+            onClick={async () => {
+              await router.push(props.githubUrl);
+            }}
+            variant="alternative"
+            disabled={false}
+          >
+            <div className="flex justify-center">
+              <div className="h-6 w-6">
+                <GoogleIcon />
+              </div>
+              <span className="ml-1">Google Login</span>
+            </div>
+          </Button>
+        </div>
+
+        <div className=" pt-5">
+          <Button
+            onClick={async () => {
+              await router.push(props.githubUrl);
+            }}
+            variant="alternative"
+            disabled={false}
+          >
+            <div className="flex justify-center">
+              <div className="h-6 w-6">
+                <GitHubIcon />
+              </div>
+              <span className="ml-1">GitHub Login</span>
+            </div>
+          </Button>
+        </div>
       </div>
     </Card>
   );
