@@ -1,3 +1,4 @@
+import axios from "axios";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import PasswordEditCard from "~/components/pages/account/password/PasswordEditCard";
@@ -7,6 +8,10 @@ const PasswordPage = () => {
 
   const onSubmit = async (data: PasswordEditFormInputs) => {
     console.log(data);
+
+    await axios.patch("/api/private/password", data).catch((err) => {
+      console.error(err);
+    });
     await router.push("/account");
   };
 

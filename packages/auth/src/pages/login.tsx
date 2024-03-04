@@ -84,7 +84,7 @@ const LoginPage = () => {
       return;
     }
 
-    await router.push("http://localhost:3000/error");
+    await router.push("http://localhost:3000/account");
   };
 
   const onWebauthnLogin = async () => {
