@@ -98,6 +98,7 @@ const AccountSettingsPage = (props: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession({ req: context.req });
+
   const client = new GraphQLClient(
     `${process.env.NEXT_PUBLIC_API_URL}/graphql`
   );
@@ -115,6 +116,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
 
   if (!userInfo) {
+    // NextAuthのセッションを破棄する方法がないのでCookieを削除する
+    context.res.setHeader("Set-Cookie", "next-auth.session-token=; path=/;");
     return {
       redirect: {
         destination: "/",

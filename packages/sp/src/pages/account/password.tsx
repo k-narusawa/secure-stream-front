@@ -7,8 +7,6 @@ const PasswordPage = () => {
   const router = useRouter();
 
   const onSubmit = async (data: PasswordEditFormInputs) => {
-    console.log(data);
-
     await axios.patch("/api/private/password", data).catch((err) => {
       console.error(err);
     });
