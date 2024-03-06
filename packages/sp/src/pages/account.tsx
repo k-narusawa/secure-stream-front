@@ -7,9 +7,12 @@ import UserCard from "~/components/pages/account/UserCard";
 import { UserInfo, getSdk } from "~/graphql/types";
 import { useState } from "react";
 import { useWebAuthn } from "~/hooks/useWebauthn";
+import { useRouter, Router } from "next/router";
+import axios from "axios";
 
 type Props = {
   userInfo: UserInfo;
+  idToken: string | undefined;
 };
 
 const AccountSettingsPage = (props: Props) => {
@@ -24,8 +27,20 @@ const AccountSettingsPage = (props: Props) => {
   const [webauthn, setWebauthn] = useState(
     props.userInfo.user?.passkey ?? false
   );
+  const router = useRouter();
 
   const onLogout = async () => {
+    await router.push(
+      "http://localhost:44444/oauth2/sessions/logout" +
+        `?id_token_hint=${props.idToken}` +
+        `&post_logout_redirect_uri=http://localhost:3000/api/logout` +
+        "&state=state"
+    );
+    return;
+    await axios.post("/api/auth/revoke").catch((err) => {
+      console.error(err);
+      return;
+    });
     signOut();
   };
 
@@ -129,6 +144,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       userInfo: userInfo,
+      idToken: session?.idToken,
     },
   };
 };
