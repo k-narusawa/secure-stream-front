@@ -5,8 +5,7 @@ import { getSession, signOut } from "next-auth/react";
 import ProfileCard from "~/components/pages/account/ProfileCard";
 import UserCard from "~/components/pages/account/UserCard";
 import { UserInfo, getSdk } from "~/graphql/types";
-import { useState } from "react";
-import { useRouter, Router } from "next/router";
+import { useRouter } from "next/router";
 import axios from "axios";
 
 type Props = {
@@ -18,18 +17,20 @@ const AccountSettingsPage = (props: Props) => {
   const router = useRouter();
 
   const onLogout = async () => {
-    await router.push(
-      "http://localhost:44444/oauth2/sessions/logout" +
-        `?id_token_hint=${props.idToken}` +
-        `&post_logout_redirect_uri=http://localhost:3000/api/logout` +
-        "&state=state"
-    );
-    return;
     await axios.post("/api/auth/revoke").catch((err) => {
       console.error(err);
       return;
     });
-    signOut();
+
+    signOut({ redirect: false });
+
+    await router.push(
+      "http://localhost:44444/oauth2/sessions/logout" +
+        `?id_token_hint=${props.idToken}` +
+        `&post_logout_redirect_uri=http://localhost:3000/account` +
+        "&state=state"
+    );
+    return;
   };
 
   if (props.userInfo?.profile) {

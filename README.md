@@ -17,8 +17,7 @@
 npm run dev
 ```
 
-> [!TIP]
-> `concurrently`が導入されているため複数のプロジェクトが同時に実行される設定になっています
+> [!TIP] > `concurrently`が導入されているため複数のプロジェクトが同時に実行される設定になっています
 
 ## 設定
 
@@ -33,8 +32,7 @@ npm run dev
     "http://127.0.0.1:3000/api/auth/callback/hydra",
     "http://localhost:3000/api/auth/callback/hydra"
   ],
-  "frontchannel_logout_uri": "http://localhost:3000/api/auth/logout",
-  "post_logout_redirect_uris": ["http://localhost:3000/api/auth/logout"],
+  "post_logout_redirect_uris": ["http://localhost:3000/account"],
   "scope": "openid offline email",
   "token_endpoint_auth_method": "client_secret_post"
 }
