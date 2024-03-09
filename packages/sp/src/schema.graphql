@@ -17,6 +17,11 @@ fragment UserSocialLogin on SocialLogin {
   github
 }
 
+fragment UserPasskey on Passkey {
+  credentialId
+  aaguid
+}
+
 query UserOnly {
   userInfo {
     user {
@@ -37,6 +42,14 @@ query SocialLoginOnly {
   userInfo {
     socialLogin {
       ...UserSocialLogin
+    }
+  }
+}
+
+query PasskeyOnly {
+  userInfo {
+    passkey {
+      ...UserPasskey
     }
   }
 }

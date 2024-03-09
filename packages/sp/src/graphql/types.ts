@@ -30,6 +30,12 @@ export type MutationChangeProfileArgs = {
   picture?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Passkey = {
+  __typename?: 'Passkey';
+  aaguid?: Maybe<Scalars['String']['output']>;
+  credentialId?: Maybe<Scalars['String']['output']>;
+};
+
 export type Profile = {
   __typename?: 'Profile';
   familyName?: Maybe<Scalars['String']['output']>;
@@ -59,6 +65,7 @@ export type User = {
 
 export type UserInfo = {
   __typename?: 'UserInfo';
+  passkey?: Maybe<Array<Maybe<Passkey>>>;
   profile?: Maybe<Profile>;
   socialLogin?: Maybe<SocialLogin>;
   user?: Maybe<User>;
@@ -70,6 +77,8 @@ export type UserProfileFragment = { __typename?: 'Profile', familyName?: string 
 export type UserInformationFragment = { __typename?: 'User', username?: string | null, isAccountLock?: boolean | null, mfa?: boolean | null, passkey?: boolean | null };
 
 export type UserSocialLoginFragment = { __typename?: 'SocialLogin', google?: boolean | null, github?: boolean | null };
+
+export type UserPasskeyFragment = { __typename?: 'Passkey', credentialId?: string | null, aaguid?: string | null };
 
 export type UserOnlyQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -85,6 +94,11 @@ export type SocialLoginOnlyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SocialLoginOnlyQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', socialLogin?: { __typename?: 'SocialLogin', google?: boolean | null, github?: boolean | null } | null } | null };
+
+export type PasskeyOnlyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PasskeyOnlyQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', passkey?: Array<{ __typename?: 'Passkey', credentialId?: string | null, aaguid?: string | null } | null> | null } | null };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -122,6 +136,12 @@ export const UserSocialLoginFragmentDoc = gql`
   github
 }
     `;
+export const UserPasskeyFragmentDoc = gql`
+    fragment UserPasskey on Passkey {
+  credentialId
+  aaguid
+}
+    `;
 export const UserOnlyDocument = gql`
     query UserOnly {
   userInfo {
@@ -149,6 +169,15 @@ export const SocialLoginOnlyDocument = gql`
   }
 }
     ${UserSocialLoginFragmentDoc}`;
+export const PasskeyOnlyDocument = gql`
+    query PasskeyOnly {
+  userInfo {
+    passkey {
+      ...UserPasskey
+    }
+  }
+}
+    ${UserPasskeyFragmentDoc}`;
 export const UserInfoDocument = gql`
     query UserInfo {
   userInfo {
@@ -191,6 +220,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     SocialLoginOnly(variables?: SocialLoginOnlyQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SocialLoginOnlyQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<SocialLoginOnlyQuery>(SocialLoginOnlyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SocialLoginOnly', 'query', variables);
+    },
+    PasskeyOnly(variables?: PasskeyOnlyQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PasskeyOnlyQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PasskeyOnlyQuery>(PasskeyOnlyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PasskeyOnly', 'query', variables);
     },
     UserInfo(variables?: UserInfoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<UserInfoQuery>(UserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UserInfo', 'query', variables);

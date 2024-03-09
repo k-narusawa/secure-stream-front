@@ -1,6 +1,9 @@
 import base64url from "base64url";
 import axios, { AxiosResponse } from "axios";
-import { RequestWebauthnRegistration } from "@/secure-stream-openapi/typescript/api";
+import {
+  RequestWebauthnRegistration,
+  WebauthnRegistration,
+} from "@/secure-stream-openapi/typescript/api";
 
 export const useWebAuthn = () => {
   const requestRegistration = async () => {
@@ -34,8 +37,11 @@ export const useWebAuthn = () => {
       });
   };
 
-  const registerCredentials = async (flowId: string, credentials: any) => {
-    await axios
+  const registerCredentials = async (
+    flowId: string,
+    credentials: any
+  ): Promise<WebauthnRegistration> => {
+    return await axios
       .post(`/api/private/webauthn`, {
         withCredentials: true,
         data: {
@@ -54,7 +60,7 @@ export const useWebAuthn = () => {
         },
       })
       .then((res) => {
-        return res;
+        return res.data;
       })
       .catch((err) => {
         throw new Error(err);

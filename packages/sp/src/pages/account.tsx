@@ -6,7 +6,6 @@ import ProfileCard from "~/components/pages/account/ProfileCard";
 import UserCard from "~/components/pages/account/UserCard";
 import { UserInfo, getSdk } from "~/graphql/types";
 import { useState } from "react";
-import { useWebAuthn } from "~/hooks/useWebauthn";
 import { useRouter, Router } from "next/router";
 import axios from "axios";
 
@@ -16,17 +15,6 @@ type Props = {
 };
 
 const AccountSettingsPage = (props: Props) => {
-  const {
-    requestRegistration,
-    createCredentials,
-    registerCredentials,
-    deleteWebauthn,
-  } = useWebAuthn();
-  const [completeMsg, setCompleteMsg] = useState<string | undefined>();
-  const [errorMsg, setErrorMsg] = useState<string | undefined>();
-  const [webauthn, setWebauthn] = useState(
-    props.userInfo.user?.passkey ?? false
-  );
   const router = useRouter();
 
   const onLogout = async () => {
@@ -44,37 +32,10 @@ const AccountSettingsPage = (props: Props) => {
     signOut();
   };
 
-  const onWebAuthnRequest = async () => {
-    const res = await requestRegistration();
-    if (!res) {
-      setErrorMsg("Failed to request registration");
-      return;
-    }
-    const credentials = await createCredentials(res);
-    await registerCredentials(res.flowId, credentials)
-      .then(() => {
-        setWebauthn(true);
-        setCompleteMsg("Registration Complete");
-      })
-      .catch((err) => {
-        setErrorMsg("Failed to register credentials");
-      });
-  };
-
-  const onWebAuthnDelete = async () => {
-    await deleteWebauthn();
-    setWebauthn(false);
-  };
-
   if (props.userInfo?.profile) {
     return (
       <div className="pt-10">
-        <UserCard
-          onWebAuthnRequest={onWebAuthnRequest}
-          onWebAuthnDelete={onWebAuthnDelete}
-          userInfo={props.userInfo}
-          webauthn={webauthn}
-        />
+        <UserCard userInfo={props.userInfo} />
         <div className="my-10" />
         <ProfileCard profile={props.userInfo.profile} />
         <div className="mt-10 flex justify-center items-center">
@@ -84,28 +45,6 @@ const AccountSettingsPage = (props: Props) => {
             </Button>
           </div>
         </div>
-        {errorMsg && (
-          <div className="z-50 fixed bottom-0 w-full flex justify-center">
-            <Toast
-              type="danger"
-              message={errorMsg}
-              onClose={() => {
-                setErrorMsg(undefined);
-              }}
-            />
-          </div>
-        )}
-        {completeMsg && (
-          <div className="z-50 fixed bottom-0 w-full flex justify-center">
-            <Toast
-              type="success"
-              message={completeMsg}
-              onClose={() => {
-                setCompleteMsg(undefined);
-              }}
-            />
-          </div>
-        )}
       </div>
     );
   }

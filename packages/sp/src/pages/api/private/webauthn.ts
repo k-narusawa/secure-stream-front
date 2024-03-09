@@ -24,7 +24,7 @@ export default async function handle(
     const apiResponse = await webauthnApi
       .registerWebauthn(data)
       .then((res) => {
-        return res;
+        return res.data;
       })
       .catch((err) => {
         return null;
@@ -35,10 +35,10 @@ export default async function handle(
       return;
     }
 
-    res.status(200).json(undefined);
+    return res.status(200).json(apiResponse);
   } else if (req.method === "DELETE") {
     const apiResponse = await webauthnApi
-      .deleteWebauthn()
+      .deleteAllWebauthn()
       .then((res) => {
         return res;
       })

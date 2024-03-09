@@ -1,48 +1,17 @@
-import {
-  Card,
-  DeleteIconLink,
-  EditIconLink,
-  HorizontalLine,
-  Modal,
-} from "@/shared-components/src";
+import { Card, EditIconLink, HorizontalLine } from "@/shared-components/src";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
 import { UserInfo } from "~/graphql/types";
 
 export interface UserCardProps {
   userInfo: UserInfo;
-  webauthn: boolean;
-  onWebAuthnRequest: () => void;
-  onWebAuthnDelete: () => void;
 }
 
-const UserCard = ({
-  userInfo,
-  webauthn,
-  onWebAuthnRequest,
-  onWebAuthnDelete,
-}: UserCardProps) => {
-  const [onModal, setOnModal] = useState(false);
-
-  const openModal = () => {
-    setOnModal(true);
-  };
-
-  const closeModal = () => {
-    setOnModal(false);
-  };
+const UserCard = ({ userInfo }: UserCardProps) => {
+  const router = useRouter();
 
   return (
     <>
-      {onModal && (
-        <div className="text-center">
-          <Modal
-            onConfirmed={onWebAuthnDelete}
-            onClosed={closeModal}
-            description="Are you delete Passkey?"
-          ></Modal>
-        </div>
-      )}
       <Card>
         <div className="py-4 px-8 flex justify-between">
           <div className=" text-xl font-sans">Login</div>
@@ -99,29 +68,17 @@ const UserCard = ({
           <div className="col-start-1">
             <span className="text-gray-500">PassKey</span>
           </div>
-          {webauthn ? (
-            <>
-              <div className="col-start-3 text-green">Enabled</div>
-              <div className="col-start-6">
-                <button onClick={openModal}>
-                  <DeleteIconLink />
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="col-start-3 text-red">Disabled</div>
-              <div className="col-start-6">
-                <button
-                  onClick={() => {
-                    onWebAuthnRequest();
-                  }}
-                >
-                  <EditIconLink />
-                </button>
-              </div>
-            </>
-          )}
+
+          <div className="col-start-3"></div>
+          <div className="col-start-6">
+            <button
+              onClick={async () => {
+                await router.push("/account/passkey");
+              }}
+            >
+              <EditIconLink />
+            </button>
+          </div>
         </div>
 
         <HorizontalLine />
@@ -130,7 +87,7 @@ const UserCard = ({
           <div className="col-start-1">
             <span className="text-gray-500">Social</span>
           </div>
-          <div className="col-start-3 text-green"></div>
+          <div className="col-start-3"></div>
           <div className="col-start-6">
             <Link href="/account/social_login">
               <EditIconLink />
