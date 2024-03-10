@@ -1,4 +1,4 @@
-import { Card, HorizontalLine, Modal } from "@/shared-components/src";
+import { Card, HorizontalLine, Modal, PlusIcon } from "@/shared-components/src";
 import Image from "next/image";
 import { useState } from "react";
 import DeleteButton from "~/components/pages/account/passkey/DeleteButton";
@@ -82,7 +82,10 @@ const PasskeyCard = ({
         })}
         <div className="flex justify-center py-4 px-8">
           <button onClick={onRegister}>
-            <div className="flex items-center">
+            <div className="flex items-center hover:font-semibold">
+              <div className="w-4 h-4 mx-1">
+                <PlusIcon />
+              </div>
               <span className=" text-gray-500 leading-7">Add Passkey</span>
             </div>
           </button>
