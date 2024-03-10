@@ -3,15 +3,15 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Toast } from "@/shared-components/src";
 import { useWebAuthn } from "~/hooks/useWebauthn";
-import { sign } from "crypto";
+import { set } from "react-hook-form";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("test@example.com");
   const [password, setPassword] = useState("!Password0");
   const [csrfToken, setCsrfToken] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
+  const [googleUrl, setGoogleUrl] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
 
   const { getCredentials, postCredentials } = useWebAuthn();
@@ -38,6 +38,7 @@ const LoginPage = () => {
             }
             setCsrfToken(response.data.csrf_token);
             setGithubUrl(response.data.github_login_url);
+            setGoogleUrl(response.data.google_login_url);
           })
           .catch(() => {
             setError("Internal Server Error");
@@ -123,6 +124,7 @@ const LoginPage = () => {
         csrfToken={csrfToken}
         error={error}
         githubUrl={githubUrl}
+        googleUrl={googleUrl}
         setUsername={setUsername}
         setPassword={setPassword}
         onLogin={onLogin}

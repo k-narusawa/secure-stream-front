@@ -16,6 +16,7 @@ type LoginCardProps = {
   csrfToken: string;
   error: string | undefined;
   githubUrl: string;
+  googleUrl: string;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   onLogin: (data: LoginFormInputs) => void;
@@ -102,7 +103,7 @@ const LoginCard = ({ ...props }: LoginCardProps) => {
         <div className="">
           <Button
             onClick={async () => {
-              await router.push(props.githubUrl);
+              await router.push(props.googleUrl);
             }}
             variant="alternative"
             disabled={false}
