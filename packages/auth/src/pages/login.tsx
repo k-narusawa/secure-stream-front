@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useWebAuthn } from "~/hooks/useWebauthn";
-import { set } from "react-hook-form";
+import DefaultErrorPage from "next/error";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("test@example.com");
@@ -12,7 +12,8 @@ const LoginPage = () => {
   const [csrfToken, setCsrfToken] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [googleUrl, setGoogleUrl] = useState("");
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
 
   const { getCredentials, postCredentials } = useWebAuthn();
 
@@ -40,8 +41,8 @@ const LoginPage = () => {
             setGithubUrl(response.data.github_login_url);
             setGoogleUrl(response.data.google_login_url);
           })
-          .catch(() => {
-            setError("Internal Server Error");
+          .catch((_err) => {
+            setError(true);
           });
       }
     };
@@ -75,7 +76,7 @@ const LoginPage = () => {
       })
       .catch((error) => {
         if (error.response.status === 401) {
-          setError("Authentication has failed.");
+          setErrorMsg("Authentication has failed.");
         }
         return;
       });
@@ -94,7 +95,7 @@ const LoginPage = () => {
         return response.data;
       })
       .catch(() => {
-        setError("Internal Server Error");
+        setErrorMsg("Internal Server Error");
       });
 
     const credentials = await getCredentials(options);
@@ -105,7 +106,7 @@ const LoginPage = () => {
       credentials,
       loginChallenge
     ).catch(() => {
-      setError("Internal Server Error");
+      setErrorMsg("Internal Server Error");
       return;
     });
 
@@ -113,25 +114,33 @@ const LoginPage = () => {
       await router.push(redirectTo);
       return;
     }
-    setError("Internal Server Error");
+    setErrorMsg("Internal Server Error");
   };
 
-  return (
-    <div className="pt-20">
-      <LoginCard
-        username={username}
-        password={password}
-        csrfToken={csrfToken}
-        error={error}
-        githubUrl={githubUrl}
-        googleUrl={googleUrl}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        onLogin={onLogin}
-        onWebauthnLogin={onWebauthnLogin}
-      />
-    </div>
-  );
+  if (error) {
+    return <DefaultErrorPage statusCode={500} />;
+  }
+
+  if (!error && csrfToken && githubUrl && googleUrl) {
+    return (
+      <div className="pt-20">
+        <LoginCard
+          username={username}
+          password={password}
+          csrfToken={csrfToken}
+          error={errorMsg}
+          githubUrl={githubUrl}
+          googleUrl={googleUrl}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          onLogin={onLogin}
+          onWebauthnLogin={onWebauthnLogin}
+        />
+      </div>
+    );
+  }
+
+  return <> </>;
 };
 
 async function getStaticProps() {

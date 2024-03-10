@@ -7,13 +7,15 @@ import UserCard from "~/components/pages/account/UserCard";
 import { UserInfo, getSdk } from "~/graphql/types";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Error from "next/error";
 
 type Props = {
-  userInfo: UserInfo;
-  idToken: string | undefined;
+  userInfo: UserInfo | undefined;
+  idToken: string | null;
+  error: boolean;
 };
 
-const AccountSettingsPage = (props: Props) => {
+const AccountSettingsPage = ({ userInfo, idToken, error }: Props) => {
   const router = useRouter();
 
   const onLogout = async () => {
@@ -26,19 +28,24 @@ const AccountSettingsPage = (props: Props) => {
 
     await router.push(
       "http://localhost:44444/oauth2/sessions/logout" +
-        `?id_token_hint=${props.idToken}` +
-        `&post_logout_redirect_uri=http://localhost:3000/account` +
+        `?id_token_hint=${idToken}` +
+        `&post_logout_redirect_uri=http://localhost:3000` +
         "&state=state"
     );
     return;
   };
 
-  if (props.userInfo?.profile) {
+  if (error) {
+    console.error("Error: AccountSettingsPage");
+    return <Error statusCode={500} />;
+  }
+
+  if (userInfo?.profile) {
     return (
       <div className="pt-10">
-        <UserCard userInfo={props.userInfo} />
+        <UserCard userInfo={userInfo} />
         <div className="my-10" />
-        <ProfileCard profile={props.userInfo.profile} />
+        <ProfileCard profile={userInfo.profile} />
         <div className="mt-10 flex justify-center items-center">
           <div className="w-48">
             <Button variant="danger" onClick={onLogout} disabled={false}>
@@ -49,6 +56,8 @@ const AccountSettingsPage = (props: Props) => {
       </div>
     );
   }
+
+  return <Error statusCode={500} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -60,31 +69,45 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   client.setHeader("Authorization", `Bearer ${session?.accessToken}`);
 
   const sdk = getSdk(client);
-  const userInfo = await sdk
+  const response = await sdk
     .UserInfo()
     .then((res) => {
       return res.userInfo;
     })
     .catch((err) => {
-      console.error(err);
+      if (axios.isAxiosError(err)) {
+        return err.response;
+      }
+
       return null;
     });
 
-  if (!userInfo) {
+  if (axios.isAxiosError(response)) {
     // NextAuthのセッションを破棄する方法がないのでCookieを削除する
-    context.res.setHeader("Set-Cookie", "next-auth.session-token=; path=/;");
+    if (response && response.status === 401) {
+      context.res.setHeader("Set-Cookie", "next-auth.session-token=; path=/;");
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
+
     return {
-      redirect: {
-        destination: "/",
-        permanent: false,
+      props: {
+        userInfo: undefined,
+        idToken: session?.idToken || null,
+        error: true,
       },
     };
   }
 
   return {
     props: {
-      userInfo: userInfo,
-      idToken: session?.idToken,
+      userInfo: response,
+      idToken: session?.idToken || null,
+      error: false,
     },
   };
 };
